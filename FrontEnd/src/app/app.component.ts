@@ -4,9 +4,14 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  template:`
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  `,
+  standalone: true,
+  styles:[]
 })
 export class AppComponent {
-  title = 'FrontEnd';
+  title = 'SpotReservation';
 }
