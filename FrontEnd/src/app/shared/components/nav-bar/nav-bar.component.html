@@ -1,0 +1,32 @@
+<header>
+  <nav>
+    <div class="logo">
+
+        <svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill: white;"><path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" /></svg>
+        </svg>
+
+      <h2>SpotReservation</h2>
+    </div>
+    <ul>
+      <li><a routerLink="/">Accueil</a></li>
+      <li><a routerLink="/reservation">Réservation</a></li>
+      <li><a routerLink="/contacts">Nous&nbsp;Contacter</a></li>
+    </ul>
+
+    <div class="ConnectingOptions">
+      <div class="login-register">
+        <button *ngIf="showButtons && !isAuthenticated" class="register" routerLink="/auth/register">S'inscrire</button>
+        <button *ngIf="showButtons && !isAuthenticated" class="login" routerLink="/auth/login">Se Connecter</button>
+      </div>
+      <div class="logout-container">
+        <h3 *ngIf="isAuthenticated" class="userName">Bonjour&nbsp;{{username }}</h3>
+        <button *ngIf="showButtons && isAuthenticated" class="logout" (click)="logout()">
+          <svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7L15.59 8.41L18.17 11H8V13H18.17L15.59 15.58L17 17L22 12M4 5H12V3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H12V19H4V5Z" /></svg>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+</header>
