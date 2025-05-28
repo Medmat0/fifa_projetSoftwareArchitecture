@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./Backend
+    container_name: backend
+    volumes:
+      - ./Backend:/app
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./Backend/.env
+    command: sh -c "npx prisma generate && npx prisma db push && nodemon index.js"
+
+
+  frontend:
+    build: ./FrontEnd
+    container_name: frontend
+    volumes:
+      - ./FrontEnd:/app
+      - /app/node_modules
+    ports:
+      - "4300:4200"
+    environment:
+      - NG_CLI_ANALYTICS=ci # Désactive définitivement les prompts
+      - CHOKIDAR_USEPOLLING=true
+    stdin_open: false # Important pour éviter les problèmes de prompt
+    tty: false
