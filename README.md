@@ -19,7 +19,7 @@ Cette application permet de gérer les réservations de places de parking.
 
 2. Créez un fichier `.env` dans le dossier Backend avec les variables d'environnement suivantes :
    ```env
-   DATABASE_URL="file:./prisma/sqlite/dev.db"
+   DATABASE_URL="file:./db.sqlite"
 
 
 3. Lancez les conteneurs avec Docker Compose :
