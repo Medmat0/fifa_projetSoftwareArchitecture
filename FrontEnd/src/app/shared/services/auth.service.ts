@@ -29,6 +29,7 @@ export class AuthService {
           localStorage.setItem('utilisateur', JSON.stringify(response.utilisateur));
           console.log('User is authenticated:', response);
           this.authStatusSubject.next(true);
+          console.log('Authentication status test ll:',this.authStatusSubject.value);
         } else if (response.message === 'Invalid or expired token' && response.authenticated === false) {
           console.error('Invalid or Expired access Token');
           localStorage.removeItem('utilisateur');
