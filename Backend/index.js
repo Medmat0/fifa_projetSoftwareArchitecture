@@ -1,16 +1,23 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import authRoutes from "./src/modules/authentification/auth.route.js"; 
-
+import authRoutes from "./src/modules/authentification/auth.route.js";
+import cors from "cors";
 dotenv.config();
 
 
 const app = express();
 
+
+
 app.use(express.json());
 app.use(cookieParser());
-
+app.use(cors({
+  origin: 'http://localhost:4300',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use("/auth", authRoutes);
 
 app.get("/", (req, res) => {
