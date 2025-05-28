@@ -1,0 +1,14 @@
+<!-- src/app/pages/authentication/login/login.component.html -->
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <label>
+    Email :
+    <input type="email" formControlName="email" />
+  </label>
+  <br />
+  <label>
+    Mot de passe :
+    <input type="password" formControlName="password" />
+  </label>
+  <br />
+  <button type="submit">Se connecter</button>
+</form>
