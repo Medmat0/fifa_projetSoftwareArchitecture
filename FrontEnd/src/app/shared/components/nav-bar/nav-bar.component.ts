@@ -31,6 +31,7 @@ export class NavBarComponent {
     });
 
     this.authService.authStatus$.subscribe((status) => {
+
       this.isAuthenticated = status;
       if (status) {
         const user = localStorage.getItem('utilisateur');

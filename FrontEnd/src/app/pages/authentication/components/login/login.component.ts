@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {AuthService} from '../../../../shared/services/auth.service';
+import {Router} from '@angular/router';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +13,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  authService = inject(AuthService);
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
       email: [''],
       password: ['']
@@ -19,6 +23,17 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    const {email, password} = this.loginForm.value;
+
     console.log(this.loginForm.value);
+    this.authService.login(email, password).subscribe({
+      next: (response) => {
+        console.log('Login successful', response);
+        this.router.navigate(['']).then(r => console.log(r));
+      },
+      error: (error) => {
+        console.error('Login failed', error);
+      }
+    });
   }
 }
