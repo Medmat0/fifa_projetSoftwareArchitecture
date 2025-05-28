@@ -23,17 +23,22 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    const {email, password} = this.loginForm.value;
+    const { email, password } = this.loginForm.value;
 
-    console.log(this.loginForm.value);
     this.authService.login(email, password).subscribe({
       next: (response) => {
         console.log('Login successful', response);
-        this.router.navigate(['']).then(r => console.log(r));
+
+        this.authService.checkAuthStatus().subscribe();
+
+        this.router.navigate(['']).then(() => {
+          console.log('Navigation completed');
+        });
       },
       error: (error) => {
         console.error('Login failed', error);
       }
     });
   }
+
 }

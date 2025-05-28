@@ -1,5 +1,5 @@
 // src/app/shared/components/nav-bar/nav-bar.component.ts
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
 import { NgIf } from '@angular/common';
 import { NavbarService } from '../../services/navbar.service';
@@ -13,7 +13,7 @@ import { ChangeDetectorRef } from '@angular/core';
   standalone: true,
   styleUrl: './nav-bar.component.scss'
 })
-export class NavBarComponent {
+export class NavBarComponent implements OnInit {
   showButtons: boolean = true;
   isAuthenticated: boolean = false;
   username: string | null = null;
@@ -31,19 +31,18 @@ export class NavBarComponent {
     });
 
     this.authService.authStatus$.subscribe((status) => {
-
       this.isAuthenticated = status;
+      console.log('Authentication status test:', status);
       if (status) {
         const user = localStorage.getItem('utilisateur');
-        if (user) {
-          this.username = JSON.parse(user).prenom;
-          this.cdr.detectChanges();
-        }
+        this.username = user ? JSON.parse(user).prenom : null;
       } else {
         this.username = null;
       }
+      this.cdr.detectChanges();
     });
   }
+
 
   logout() {
     this.authService.logout().subscribe({
