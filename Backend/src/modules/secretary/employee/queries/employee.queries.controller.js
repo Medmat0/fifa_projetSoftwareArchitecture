@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { PrismaClient } from "@prisma/client";
-import {getAllEmployees} from "./employee.queries.service.js";
+import {getAllEmployeesService, getEmployeeByIdService} from "./employee.queries.service.js";
 
 const prisma = new PrismaClient();
 
@@ -9,11 +9,35 @@ const prisma = new PrismaClient();
  * @route   GET /secretary/employees
  * @access  Privé
  */
-export const getEmployeeQueries = asyncHandler(async (req, res) => {
-    const employees = await getAllEmployees(req, res);
-    if (employees) {
+export const getAllEmployeesController = asyncHandler(async (req, res) => {
+    try {
+        const employees = await getAllEmployeesService();
         res.status(200).json(employees);
-    } else {
-        res.status(404).json({ message: "Aucun employé trouvé." });
+
+    } catch (error) {
+        console.error("Error fetching employees:", error);
+        res.status(500).json({ message: "Erreur interne du serveur." });
+    }
+
+
+});
+
+/**
+ * @desc    Récupère un employé par son ID
+ * @route   GET /secretary/employees/:id
+ * @access  Privé
+ */
+
+export const getEmployeeByIdController = asyncHandler(async (req, res) => {
+    try {
+        const employee = await getEmployeeByIdService(req);
+        if (!employee) {
+            return res.status(404).json({ message: "Employé non trouvé." });
+        }
+        res.status(200).json(employee);
+
+    }catch (error) {
+        console.error("Error fetching employee by ID:", error);
+        res.status(500).json({ message: "Erreur interne du serveur." });
     }
 });

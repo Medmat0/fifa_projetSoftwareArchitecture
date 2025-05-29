@@ -1,9 +1,9 @@
 import express from "express";
-import {getEmployeeQueries} from "./employee.queries.controller.js";
+import {getAllEmployeesController, getEmployeeByIdController} from "./employee.queries.controller.js";
 
 const router = express.Router();
 
-router.get("/",getEmployeeQueries);
-//router.get(":id",);
+router.get("/",getAllEmployeesController);
+router.get("/:id",getEmployeeByIdController);
 
 export default router;
