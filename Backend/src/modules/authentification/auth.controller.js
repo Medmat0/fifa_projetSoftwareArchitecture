@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import { loginUser } from "./auth.service.js";
 import { checkAuthStatusService } from "./auth.service.js";
 import { logoutUser } from "./auth.service.js";
+import { checkRoleService } from "./auth.service.js";
 
 /**
  * @desc    Handle user login (controller)
@@ -31,6 +32,12 @@ export const checkAuthStatus = asyncHandler(async (req, res) => {
 });
 
 
+export const checkRole = asyncHandler(async (req, res) => {
+  const accessToken = req.cookies["accessToken"];
+    const refreshToken = req.cookies["refreshToken"];
+    const result = await checkRoleService(accessToken, refreshToken);
+    res.status(result.status).json(result.data);
 
+});
 
 

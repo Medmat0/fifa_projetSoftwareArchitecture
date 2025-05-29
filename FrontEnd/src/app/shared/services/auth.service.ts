@@ -20,6 +20,43 @@ export class AuthService {
   ) {}
 
 
+  login(email: string | null | undefined, password: string | null | undefined): Observable<any> {
+    const body = {email, password};
+    return this.http.post(`${this.apiUrl}/login`, body, {
+      withCredentials: true //envoi des credentials et reception cookies
+    }).pipe(tap((response: any) => {
+        if (response.utilisateur) {
+          localStorage.setItem('utilisateur', JSON.stringify(response.utilisateur));
+          console.log('Login successful:', response);
+          this.authStatusSubject.next(true);
+        }
+      }),
+      catchError((error) => {
+        this.errorMessage = error.error.message;
+        console.error('Login failed', error);
+        return throwError(() => new Error('Login failed'));
+      })
+    );
+  }
+
+  logout(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/logout`, {}, {
+      withCredentials: true //envoi des credentials
+    }).pipe(
+      tap(() => {
+        localStorage.removeItem('utilisateur');
+        this.authStatusSubject.next(false);
+        this.router.navigate(['/']);
+        console.log('Logout successful');
+      }),
+      catchError((error) => {
+        console.error('Logout failed', error);
+        return throwError(() => new Error('Logout failed'));
+      })
+    );
+  }
+
+
   checkAuthStatus(): Observable<any> {
     return this.http.get(`${this.apiUrl}/auth-check`, {
       withCredentials: true // Send credentials and receive cookies
@@ -61,39 +98,26 @@ export class AuthService {
     );
   }
 
-  login(email: string | null | undefined, password: string | null | undefined): Observable<any> {
-    const body = {email, password};
-    return this.http.post(`${this.apiUrl}/login`, body, {
+
+  checkRole(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/check-role`, {
       withCredentials: true //envoi des credentials et reception cookies
-    }).pipe(tap((response: any) => {
-        if (response.utilisateur) {
-          localStorage.setItem('utilisateur', JSON.stringify(response.utilisateur));
-          console.log('Login successful:', response);
-          this.authStatusSubject.next(true);
+    }).pipe(
+      tap((response: any) => {
+        if (response && response.role) {
+          console.log('User role:', response.role);
+          return response.role;
+        } else {
+          console.error('Role not found in response');
+          return null;
         }
       }),
       catchError((error) => {
-        this.errorMessage = error.error.message;
-        console.error('Login failed', error);
-        return throwError(() => new Error('Login failed'));
+        console.error('Error checking user role', error);
+        return throwError(() => new Error('Error checking user role'));
       })
     );
   }
 
-  logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/logout`, {}, {
-      withCredentials: true //envoi des credentials
-    }).pipe(
-      tap(() => {
-        localStorage.removeItem('utilisateur');
-        this.authStatusSubject.next(false);
-        this.router.navigate(['/']);
-        console.log('Logout successful');
-      }),
-      catchError((error) => {
-        console.error('Logout failed', error);
-        return throwError(() => new Error('Logout failed'));
-      })
-    );
-  }
+
 }

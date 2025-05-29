@@ -92,3 +92,22 @@ export const checkAuthStatusService = async (accessToken, refreshToken) => {
     return { status: 200, data: { authenticated: false, message: "Invalid or expired token" } };
   }
 };
+
+export const checkRoleService = async (accessToken, refreshToken) => {
+  if (!accessToken && !refreshToken) {
+    return { status: 200, data: { authenticated: false, message: "User not authenticated" } };
+  }
+
+  try {
+    const decodedToken = await verifyAccessToken(accessToken);
+    const user = await prisma.user.findUnique({ where: { id: decodedToken.id } });
+
+    if (!user) {
+      return { status: 200, data: { authenticated: false, message: "User not found" } };
+    }
+
+    return { status: 200, data: { authenticated: true, role: user.role } };
+  } catch (error) {
+    return { status: 200, data: { authenticated: false, message: "Invalid or expired token" } };
+  }
+};
