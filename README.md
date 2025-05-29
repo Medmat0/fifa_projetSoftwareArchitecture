@@ -20,6 +20,9 @@ Cette application permet de gérer les réservations de places de parking.
 2. Créez un fichier `.env` dans le dossier Backend avec les variables d'environnement suivantes :
    ```env
    DATABASE_URL="file:./db.sqlite"
+   JWT_ACC_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+   JWT_REF_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
 
 
 3. Lancez les conteneurs avec Docker Compose :
