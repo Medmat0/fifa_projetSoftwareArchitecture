@@ -1,17 +1,35 @@
-// index.js
+import express from "express";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import authRoutes from "./src/modules/authentification/auth.route.js"; 
+import reservationRoutes from "./src/modules/employee/reservation/reservationEmployee.route.js";
+import cors from "cors";
 
-const express = require('express');
-const { PrismaClient } = require('@prisma/client');
+dotenv.config();
+
 
 const app = express();
-const prisma = new PrismaClient();
-app.use(express.json());
 
-app.get('/users', async (req, res) => {
-  const users = await prisma.user.findMany();
-  res.json(users);
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:4300',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+app.use("/auth", authRoutes);
+app.use("/reservation", reservationRoutes);
+
+app.get("/", (req, res) => {
+  res.send("🚀 API de réservation de parking en ligne !");
 });
 
-app.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000');
+
+
+
+// Démarre le serveur et crée le compte secrétaire si nécessaire
+app.listen(3000, async () => {
+  console.log(`✅ Serveur démarré sur http://localhost:${3000}`);
 });

@@ -24,7 +24,7 @@ Cette application permet de gérer les réservations de places de parking.
 
 3. Lancez les conteneurs avec Docker Compose :
    ```bash
-   docker-compose up --build
+   docker-compose up 
    ```
 
 L'application sera disponible à l'adresse suivante: http://localhost:4300
