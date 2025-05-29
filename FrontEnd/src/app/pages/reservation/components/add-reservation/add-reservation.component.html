@@ -1,0 +1,41 @@
+<div class="dialog-content">
+  <h2 mat-dialog-title>Réserver la place {{ data.spotId }}</h2>
+  
+  <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+      <div class="form-row">
+        <mat-form-field appearance="fill">
+          <mat-label>Date de début</mat-label>
+          <input matInput [matDatepicker]="startPicker" formControlName="startDate"
+                 [min]="minDate" [matDatepickerFilter]="dateFilter">
+          <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+          <mat-error *ngIf="reservationForm.get('startDate')?.invalid">
+            Date de début requise
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="fill">
+          <mat-label>Date de fin</mat-label>
+          <input matInput [matDatepicker]="endPicker" formControlName="endDate"
+                 [min]="minDate" [matDatepickerFilter]="dateFilter">
+          <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+          <mat-error *ngIf="reservationForm.get('endDate')?.invalid">
+            Date de fin requise
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button type="button" (click)="onCancel()">Annuler</button>
+      <button mat-raised-button color="primary" type="submit" 
+              [disabled]="!reservationForm.valid">
+        Réserver
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>

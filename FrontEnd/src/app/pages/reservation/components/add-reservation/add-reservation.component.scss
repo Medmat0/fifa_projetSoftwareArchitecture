@@ -1,0 +1,17 @@
+.dialog-content {
+  padding: 20px;
+  min-width: 300px;
+}
+
+.form-row {
+  margin-bottom: 16px;
+  
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+mat-dialog-actions {
+  padding: 16px 0 0;
+  margin-bottom: 0;
+}
