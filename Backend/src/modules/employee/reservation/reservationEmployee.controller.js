@@ -9,9 +9,9 @@ const reservationService = new ReservationEmployeeService();
  * @access  Private (user must be authenticated)
  */
 export const createReservation = asyncHandler(async (req, res) => {
-  const { slotId, startDate, endDate, halfDay } = req.body;
+  const { slotId, startDate, endDate } = req.body;
   const userId = req.user.id;
 
-  const result = await reservationService.createReservation(userId, slotId, startDate, endDate, halfDay);
+  const result = await reservationService.createReservation(userId, slotId, startDate, endDate);
   res.status(result.status).json(result.data);
 });

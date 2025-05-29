@@ -12,7 +12,7 @@
  * @returns {Promise<{status: number, data: object}>}
  */
 export class ReservationService {
-  async createReservation(userId, slotId, startDate, endDate, halfDay) {
+  async createReservation(userId, slotId, startDate, endDate) {
     throw new Error('Not implemented');
   }
 }

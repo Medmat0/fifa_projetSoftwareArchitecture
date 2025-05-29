@@ -9,10 +9,9 @@ export class ReservationEmployeeService extends ReservationService {
    * @param   {string} slotId
    * @param   {Date} startDate
    * @param   {Date} endDate
-   * @param   {boolean} halfDay
    * @returns {object} { status, data }
    */
-  async createReservation(userId, slotId, startDate, endDate, halfDay) {
+  async createReservation(userId, slotId, startDate, endDate, ) {
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user || user.role !== 'EMPLOYEE') {
       return {
@@ -66,7 +65,8 @@ export class ReservationEmployeeService extends ReservationService {
         slotId,
         startDate: new Date(startDate),
         endDate: new Date(endDate),
-        halfDay
+        halfDay: false 
+        
       }
     });
 

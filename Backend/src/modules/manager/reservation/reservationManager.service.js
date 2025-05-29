@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export class ReservationManagerService extends ReservationService {
-  async createReservation(userId, slotId, startDate, endDate, halfDay) {
+  async createReservation(userId, slotId, startDate, endDate) {
     // Exemple de logique spécifique manager (à adapter selon besoins)
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user || user.role !== 'MANAGER') {
@@ -37,7 +37,7 @@ export class ReservationManagerService extends ReservationService {
         slotId,
         startDate: new Date(startDate),
         endDate: new Date(endDate),
-        halfDay
+    
       }
     });
     return {
