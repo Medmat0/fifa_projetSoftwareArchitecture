@@ -1,8 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import authRoutes from "./src/modules/authentification/auth.route.js"; 
 import cors from "cors";
+import authRoutes from "./src/modules/authentification/auth.route.js"; 
+import secretaryRoutes from "./src/modules/secretary/secretary.route.js";
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(cors({
 }));
 
 app.use("/auth", authRoutes);
+app.use("/secretary",secretaryRoutes)
 
 app.get("/", (req, res) => {
   res.send("🚀 API de réservation de parking en ligne !");

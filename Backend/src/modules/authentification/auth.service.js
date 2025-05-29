@@ -14,7 +14,7 @@ const prisma = new PrismaClient();
  * @param   {object} res - Express response to set cookies
  * @returns {object} { status, data }
  */
-export const loginUser = async (email, password, res) => {
+export const loginUserService = async (email, password, res) => {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
@@ -57,7 +57,7 @@ export const loginUser = async (email, password, res) => {
   };
 };
 
-export const logoutUser = async (req, res) => {
+export const logoutUserService = async (req, res) => {
     res.clearCookie("refreshToken");
     res.clearCookie("accessToken");
 
