@@ -1,19 +1,27 @@
-import { ReservationService } from '../../../reservationService.interface.js';
+import { ReservationService } from '../../reservationService.interface.js';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
+import { countBusinessDays } from '../../../core/coutBusinessDays.js';
+
 
 export class ReservationManagerService extends ReservationService {
   async createReservation(userId, slotId, startDate, endDate) {
-    // Exemple de logique spécifique manager (à adapter selon besoins)
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-    if (!user || user.role !== 'MANAGER') {
+   
+
+    const businessDays = countBusinessDays(startDate, endDate);
+    if (businessDays > 30) {
       return {
-        status: 403,
-        data: { message: 'Only managers can make reservations here.' }
+        status: 400,
+        data: { message: 'La réservation ne peut pas dépasser 30 jours ouvrés (hors week-end).' }
       };
     }
-    // Ici, on peut mettre des règles différentes pour les managers
-    // Par exemple, pas de limite de jours, ou priorité sur certains slots
+    if (businessDays <= 0) {
+      return {
+        status: 400,
+        data: { message: 'Les dates sélectionnées ne contiennent aucun jour ouvré.' }
+      };
+    }
+
     const existingReservations = await prisma.reservation.findMany({
       where: {
         slotId,
@@ -37,7 +45,6 @@ export class ReservationManagerService extends ReservationService {
         slotId,
         startDate: new Date(startDate),
         endDate: new Date(endDate),
-    
       }
     });
     return {
