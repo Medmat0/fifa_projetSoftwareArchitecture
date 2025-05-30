@@ -21,13 +21,15 @@ export const addEmployeeService = async (employeeData) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("data", employeeData);
 
     return prisma.user.create({
         data: {
             name,
             email,
             password: hashedPassword,
-            vehicleType: vehicleType || "UNKNOWN"
+            role,
+            vehicleType
         }
     });
 }
