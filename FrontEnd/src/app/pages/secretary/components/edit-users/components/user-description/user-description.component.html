@@ -1,6 +1,13 @@
 <h2>Détails de l'utilisateur</h2>
 <p>Nom: {{ user.name }}</p>
 <p>Email: {{ user.email }}</p>
-<p>Réservations: {{ user.reservations?.length ?? 0 }}</p>
 <p>Rôle: {{ user.role }}</p>
+<p>Réservations: {{ user.reservations?.length ?? 0 }}</p>
+<ul>
+  <li *ngFor="let reservation of user.reservations">
+    {{ reservation }}
+  </li>
+</ul>
 <button (click)="closeDescription.emit()">Fermer</button>
+
+
