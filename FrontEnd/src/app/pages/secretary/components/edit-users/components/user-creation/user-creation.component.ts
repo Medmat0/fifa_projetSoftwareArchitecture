@@ -16,7 +16,7 @@ import {User} from '../../../../../../shared/models/user';
   styleUrl: './user-creation.component.scss'
 })
 export class UserCreationComponent {
-  user: UserDTO = {
+  userDTO: UserDTO = {
     email: '',
     name: '',
     password: '',
@@ -33,15 +33,15 @@ export class UserCreationComponent {
 
 
   onCreationSubmit() {
-    if (!this.user) return;
+    if (!this.userDTO) return;
 
     const userDTO = {
-      email: this.user.email,
-      name: this.user.name,
-      password: this.user.password,
-      role: this.user.role,
-      vehicleType: this.user.vehicleType,
-      reservations: this.user.reservations || []
+      email: this.userDTO.email,
+      name: this.userDTO.name,
+      password: this.userDTO.password,
+      role: this.userDTO.role,
+      vehicleType: this.userDTO.vehicleType,
+      reservations: this.userDTO.reservations || []
     };
 
     console.log('DTO envoyé:', userDTO);
