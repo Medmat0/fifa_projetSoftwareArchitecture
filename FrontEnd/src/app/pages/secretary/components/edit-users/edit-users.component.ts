@@ -29,6 +29,10 @@ export class EditUsersComponent implements OnInit {
     });
   }
 
+  addUser(newUser: User) {
+
+    this.users = [...this.users, newUser];
+  }
 
   toggleCreation() {
     this.showCreation = !this.showCreation;

@@ -3,6 +3,7 @@ import {FormsModule} from '@angular/forms';
 import {SecretaryUserService} from '../../../../../../secretary/services/secretary-user.service';
 import {NgIf} from '@angular/common';
 import {UserDTO} from '../../../../../../shared/models/DTO/userDTO';
+import {User} from '../../../../../../shared/models/user';
 
 @Component({
   selector: 'app-user-creation',
@@ -25,17 +26,19 @@ export class UserCreationComponent {
   };
   @Input() showCreation = false;
   @Output() closeCreation = new EventEmitter<void>();
+  @Output() userCreated = new EventEmitter<User>();
+
+
   secretaryUserService = inject(SecretaryUserService);
 
 
   onCreationSubmit() {
     if (!this.user) return;
 
-    // Création du DTO à partir des inputs du formulaire
     const userDTO = {
       email: this.user.email,
       name: this.user.name,
-      password: this.user.password, // à adapter si le champ n'est pas modifiable
+      password: this.user.password,
       role: this.user.role,
       vehicleType: this.user.vehicleType,
       reservations: this.user.reservations || []
@@ -45,7 +48,10 @@ export class UserCreationComponent {
 
     this.secretaryUserService.addEmployee(userDTO).subscribe({
       next: (response) => {
+
         console.log('Utilisateur créé avec succès:', response);
+
+        this.userCreated.emit(response);
         this.closeCreation.emit();
       },
       error: (error) => {

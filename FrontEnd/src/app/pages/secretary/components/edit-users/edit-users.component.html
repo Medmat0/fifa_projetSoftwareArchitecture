@@ -9,5 +9,6 @@
 <app-user-creation
   *ngIf="showCreation"
   [showCreation]="showCreation"
-  (closeCreation)="showCreation = false">
+  (closeCreation)="showCreation = false"
+  (userCreated)="addUser($event)">
 </app-user-creation>

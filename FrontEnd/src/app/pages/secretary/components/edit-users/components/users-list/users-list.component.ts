@@ -38,6 +38,8 @@ export class UsersListComponent {
   }
 
 
+
+
   deleteUser(user: User) {
     if (confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur ${user.name} ?`)) {
       console.log(`Utilisateur ${user.name} supprimé.`);
