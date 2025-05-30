@@ -45,6 +45,7 @@ export class ReservationManagerService extends ReservationService {
         slotId,
         startDate: new Date(startDate),
         endDate: new Date(endDate),
+        halfDay: false 
       }
     });
     return {
