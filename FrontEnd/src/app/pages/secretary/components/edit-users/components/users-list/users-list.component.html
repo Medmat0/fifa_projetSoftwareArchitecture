@@ -2,7 +2,7 @@
   <ul>
     <li *ngFor="let user of users" (click)="toggleDescription(user)">
       <div class="user-info">
-        Nom: {{ user.name }} Email: {{ user.email }} Reservations: {{ user.reservations?.length ?? 0 }}
+        Nom: {{ user.name }} Email: {{ user.email }}
       </div>
       <div class="actions">
         <button (click)="toggleModification(user); $event.stopPropagation()">

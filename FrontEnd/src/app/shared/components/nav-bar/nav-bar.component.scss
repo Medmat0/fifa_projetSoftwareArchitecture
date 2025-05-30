@@ -23,6 +23,15 @@ button {
   cursor: pointer;
 }
 
+.dashboard {
+  margin-left: 10px;
+  padding: 15px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+  color: white;
+}
+
+
 nav {
   display: flex;
   justify-content: flex-start;
