@@ -12,7 +12,7 @@ Le backend de notre application de réservation de parking doit gérer plusieurs
 
 Décision :
 
-Nous avons choisi une architecture monomodulaire (monolithique) pour le backend en Node.js (Express).
+Nous avons choisi une architecture monolithique modulaire (monolithique) pour le backend en Node.js (Express).
 
 L’application contient tous les modules dans un seul service déployé dans un conteneur unique.
 

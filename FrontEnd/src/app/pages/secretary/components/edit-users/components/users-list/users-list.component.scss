@@ -1,0 +1,73 @@
+:host {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 900px;
+}
+
+li {
+  background: #fff;
+  margin: 16px 0;
+  padding: 24px 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  font-size: 1.1rem;
+  width: 100%;
+  transition: box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+li:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+.users-layout {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100vw;
+  gap: 32px;
+}
+
+ul {
+  flex: 2 1 0;
+  /* ...tes styles existants... */
+}
+
+.user-description-panel {
+  flex: 1 1 300px;
+  min-width: 300px;
+  max-width: 300px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  padding: 24px 32px;
+  margin-top: 16px;
+  margin-left: 75px;
+}
+button {
+  padding: 5px;
+  background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+  color: #fff;
+  border: none;
+  border-radius: 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin: 0.5rem 10px 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.12);
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: linear-gradient(90deg, #4f46e5 0%, #2563eb 100%);
+}

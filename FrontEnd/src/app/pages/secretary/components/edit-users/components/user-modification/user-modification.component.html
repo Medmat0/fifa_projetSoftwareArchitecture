@@ -1,1 +1,15 @@
-<p>user-modification works!</p>
+<form (ngSubmit)="onModificationSubmit()">
+  <label>
+    Nom :
+    <input type="text" [(ngModel)]="user.name" name="name" required />
+  </label>
+  <br />
+  <label>
+    Email :
+    <input type="email" [(ngModel)]="user.email" name="email" required />
+  </label>
+  <br />
+  <!-- Ajoutez d'autres champs si besoin -->
+  <button type="submit">Enregistrer</button>
+  <button type="button" (click)="closeModification.emit()">Annuler</button>
+</form>
