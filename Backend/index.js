@@ -1,8 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import authRoutes from "./src/modules/authentification/auth.route.js";
+import reservationRoutes from "./src/modules/employee/reservation/reservationEmployee.route.js";
+import allslotsRoutes from "./src/modules/employee/reservation/listReservation.route.js";
 import cors from "cors";
-import authRoutes from "./src/modules/authentification/auth.route.js"; 
+import authRoutes from "./src/modules/authentification/auth.route.js";
 import secretaryRoutes from "./src/modules/secretary/secretary.route.js";
 
 dotenv.config();
@@ -22,6 +25,8 @@ app.use(cors({
 app.use("/auth", authRoutes);
 app.use("/secretary",secretaryRoutes)
 
+app.use("/reservation", reservationRoutes);
+app.use("/mapStatus", allslotsRoutes);
 app.get("/", (req, res) => {
   res.send("🚀 API de réservation de parking en ligne !");
 });
