@@ -20,16 +20,8 @@ export class ReservationEmployeeService extends ReservationService {
       };
     }
 
-    // Vérifier la durée de réservation (max 5 jours pour les employés)
-    const diffDays = Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24));
-    if (diffDays > 5) {
-      return {
-        status: 400,
-        data: { message: 'Employees can only reserve for up to 5 working days.' }
-      };
-    }
+   
 
-    // Vérifier si la place est disponible
     const existingReservations = await prisma.reservation.findMany({
       where: {
         slotId,
@@ -49,14 +41,6 @@ export class ReservationEmployeeService extends ReservationService {
       };
     }
 
-    // Vérifier les places électriques
-    const slot = await prisma.parkingSlot.findUnique({ where: { id: slotId } });
-    if (slot.isElectric && !['ELECTRIC', 'HYBRID'].includes(user.vehicleType)) {
-      return {
-        status: 400,
-        data: { message: 'You can only reserve electric slots with an electric or hybrid vehicle.' }
-      };
-    }
 
     // Créer la réservation
     const reservation = await prisma.reservation.create({

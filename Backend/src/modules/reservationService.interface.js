@@ -15,4 +15,8 @@ export class ReservationService {
   async createReservation(userId, slotId, startDate, endDate) {
     throw new Error('Not implemented');
   }
+
+  async deleteReservation(reservationId) {
+    throw new Error('Not implemented');
+  }
 }
