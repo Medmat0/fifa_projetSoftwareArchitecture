@@ -9,13 +9,14 @@ async function listOfSlotsStatus() {
   const slots = await prisma.parkingSlot.findMany();
   const now = new Date();
 
+  // Récupère toutes les réservations à venir ou en cours
   const reservations = await prisma.reservation.findMany({
     where: {
-      startDate: { lte: now },
       endDate: { gte: now }
     }
   });
 
+  // Map slotId -> liste de réservations
   const reservationMap = new Map();
   reservations.forEach(r => {
     if (!reservationMap.has(r.slotId)) {
@@ -29,18 +30,11 @@ async function listOfSlotsStatus() {
 
   return slots.map(slot => {
     const slotReservations = reservationMap.get(slot.id) || [];
-    if (slotReservations.length > 0) {
-      return {
-        slotId: slot.id,
-        status: "reserved",
-        reservations: slotReservations
-      };
-    } else {
-      return {
-        slotId: slot.id,
-        status: "dispo"
-      };
-    }
+    return {
+      slotId: slot.id,
+      status: slotReservations.length > 0 ? "reserved" : "dispo",
+      reservations: slotReservations
+    };
   });
 }
 
