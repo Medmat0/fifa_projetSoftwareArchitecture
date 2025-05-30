@@ -26,13 +26,6 @@ const prisma = new PrismaClient();
         status: reservedSlotIds.has(slot.id) ? "réservé" : "dispo"
       }));
   }
- async function listAllReservations() {
-  return await prisma.reservation.findMany({
-    include: {
-      slot: true,
-      user: { select: { id: true, name: true, email: true, role: true } }
-    }
-  });
-}
+ 
 
-export { listOfSlotsStatus, listAllReservations };
+export { listOfSlotsStatus };

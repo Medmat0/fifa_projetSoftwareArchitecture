@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import { listOfSlotsStatus, listAllReservations } from "./listReservation.service.js";
+import { listOfSlotsStatus } from "./listSlots.service.js";
 /**
  * @desc    Get all slots with their availability status
  * @route   GET /employee/reservation/slots
@@ -11,7 +11,4 @@ export const listOfSlots = asyncHandler(async (req, res) => {
 });
 
 
-export const listReservations = asyncHandler(async (req, res) => {
-  const reservations = await listAllReservations();
-  res.json(reservations);
-});
+
