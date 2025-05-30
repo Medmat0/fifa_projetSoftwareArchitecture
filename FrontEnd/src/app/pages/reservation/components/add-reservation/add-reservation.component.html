@@ -5,7 +5,8 @@
     <mat-dialog-content>
       <div class="form-row">
         <mat-form-field appearance="fill">
-          <mat-label>Date de début</mat-label>          <input matInput [matDatepicker]="startPicker" formControlName="startDate"
+          <mat-label>Date de début</mat-label>
+          <input matInput [matDatepicker]="startPicker" formControlName="startDate"
                  [min]="minDate" [matDatepickerFilter]="dateFilter" [readonly]="true"
                  (click)="startPicker.open()">
           <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
@@ -21,8 +22,10 @@
 
       <div class="form-row">
         <mat-form-field appearance="fill">
-          <mat-label>Date de fin</mat-label>          <input matInput [matDatepicker]="endPicker" formControlName="endDate"
+          <mat-label>Date de fin (max {{maxEndDate | date:'dd/MM/yyyy'}})</mat-label>
+          <input matInput [matDatepicker]="endPicker" formControlName="endDate"
                  [min]="reservationForm.get('startDate')?.value || minDate" 
+                 [max]="maxEndDate"
                  [matDatepickerFilter]="dateFilter" [readonly]="true"
                  (click)="endPicker.open()">
           <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
@@ -32,9 +35,6 @@
           </mat-error>
           <mat-error *ngIf="reservationForm.get('endDate')?.hasError('dateUnavailable')">
             Cette date n'est pas disponible
-          </mat-error>
-          <mat-error *ngIf="reservationForm.get('endDate')?.hasError('endDateBeforeStart')">
-            La date de fin doit être supérieure ou égale à la date de début
           </mat-error>
         </mat-form-field>
       </div>
