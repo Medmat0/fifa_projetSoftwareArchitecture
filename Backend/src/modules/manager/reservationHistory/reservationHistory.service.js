@@ -7,7 +7,8 @@ const prisma = new PrismaClient();
 export async function getReservationStats() {
   // Toutes les réservations
   const reservations = await prisma.reservation.findMany({
-    select: { id: true, startDate: true }
+    select: { id: true, startDate: true },
+    orderBy: { startDate: 'asc' }
   });
 
   // Stats par jour

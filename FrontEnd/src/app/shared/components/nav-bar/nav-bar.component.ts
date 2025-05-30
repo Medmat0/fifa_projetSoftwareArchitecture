@@ -13,10 +13,11 @@ import { ChangeDetectorRef } from '@angular/core';
   standalone: true,
   styleUrl: './nav-bar.component.scss'
 })
-export class NavBarComponent implements OnInit {
-  showButtons: boolean = true;
+export class NavBarComponent implements OnInit {  showButtons: boolean = true;
   isAuthenticated: boolean = false;
   username: string | null = null;
+  isSecretary: boolean = false;
+  isManager: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -24,7 +25,6 @@ export class NavBarComponent implements OnInit {
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
-
   ngOnInit() {
     this.navbarService.showButtons$.subscribe((show: boolean) => {
       this.showButtons = show;
@@ -35,9 +35,16 @@ export class NavBarComponent implements OnInit {
       console.log('Authentication status test:', status);
       if (status) {
         const user = localStorage.getItem('utilisateur');
-        this.username = user ? JSON.parse(user).prenom : null;
+        if (user) {
+          const userObj = JSON.parse(user);
+          this.username = userObj.prenom;
+          this.isManager = userObj.role === 'MANAGER';
+          this.isSecretary = userObj.role === 'SECRETARY';
+        }
       } else {
         this.username = null;
+        this.isManager = false;
+        this.isSecretary = false;
       }
       this.cdr.detectChanges();
     });
