@@ -1,1 +1,23 @@
-<p>user-creation works!</p>
+<div class="modal-backdrop" *ngIf="showCreation">
+  <div class="modal">
+    <button class="close-btn" (click)="closeCreation.emit()">×</button>
+    <form (ngSubmit)="onCreationSubmit()">
+      <label>Email :
+        <input type="email" [(ngModel)]="user.email" name="email" required />
+      </label>
+      <label>Nom :
+        <input type="text" [(ngModel)]="user.name" name="name" required />
+      </label>
+      <label>Mot de passe :
+        <input type="password" [(ngModel)]="user.password" name="password" required />
+      </label>
+      <label>Rôle :
+        <input type="text" [(ngModel)]="user.role" name="role" required />
+      </label>
+      <label>Type de véhicule :
+        <input type="text" [(ngModel)]="user.vehicleType" name="vehicleType" required />
+      </label>
+      <button type="submit">Valider</button>
+    </form>
+  </div>
+</div>

@@ -1,8 +1,13 @@
-<button (click)="toggleCreation()">
-  Ajouter un utilisateur
-</button>
-<p>Liste des utilisateurs:</p>
+<div class="centered">
+  <button (click)="toggleCreation()">
+    Ajouter un utilisateur
+  </button>
+  <p>Liste des utilisateurs:</p>
+</div>
 <app-users-list [users]="users"></app-users-list>
 
-<app-user-creation *ngIf="showCreation"></app-user-creation>
-
+<app-user-creation
+  *ngIf="showCreation"
+  [showCreation]="showCreation"
+  (closeCreation)="showCreation = false">
+</app-user-creation>

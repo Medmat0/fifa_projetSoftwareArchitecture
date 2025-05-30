@@ -1,10 +1,17 @@
 <div class="users-layout">
   <ul>
     <li *ngFor="let user of users" (click)="toggleDescription(user)">
-      Nom: {{ user.name }} Email: {{ user.email }} Reservations: {{ user.reservations?.length ?? 0 }}
-      <button (click)="toggleModification(user); $event.stopPropagation()">
-        Modifier
-      </button>
+      <div class="user-info">
+        Nom: {{ user.name }} Email: {{ user.email }} Reservations: {{ user.reservations?.length ?? 0 }}
+      </div>
+      <div class="actions">
+        <button (click)="toggleModification(user); $event.stopPropagation()">
+          Modifier
+        </button>
+        <button (click)="deleteUser(user); $event.stopPropagation()">
+          Supprimer
+        </button>
+      </div>
     </li>
   </ul>
   <app-user-description

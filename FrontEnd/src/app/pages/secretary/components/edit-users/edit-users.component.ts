@@ -10,7 +10,7 @@ import {NgIf} from '@angular/common';
 @Component({
   selector: 'app-edit-users',
   imports: [UserDescriptionComponent, UsersListComponent,
-    UserCreationComponent, UserModificationComponent, NgIf],
+    UserCreationComponent, UserModificationComponent, NgIf, UserCreationComponent],
   templateUrl: './edit-users.component.html',
   standalone: true,
   styleUrl: './edit-users.component.scss'
