@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddReservationComponent } from '../add-reservation/add-reservation.component';
 import { MapService } from '../../services/map.service';
+import { Role } from '../../../../shared/models/user';
 
 interface Reservation {
   startDate: string;
@@ -26,6 +27,7 @@ interface SlotStatus {
 export class ReservationMapComponent implements OnInit {
   selectedSpot: string | null = null;
   slotsStatus: SlotStatus[] = [];
+  userRole: Role = Role.EMPLOYEE;
 
   parkingRows = [
     { label: 'A', spots: this.generateSpots('A') },
@@ -39,7 +41,18 @@ export class ReservationMapComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private http: HttpClient
-  ) {}
+  ) {
+    // Get user info from localStorage
+    const userStr = localStorage.getItem('utilisateur');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        this.userRole = user.role as Role;
+      } catch (e) {
+        console.error('Error parsing user info:', e);
+      }
+    }
+  }
 
   ngOnInit() {
     this.loadSlotStatus();
@@ -59,7 +72,7 @@ export class ReservationMapComponent implements OnInit {
 
   getSpotStatus(spotId: string): string {
     const spot = this.slotsStatus.find(s => s.slotId === spotId);
-    return spot?.status || 'available';
+    return spot?.status || 'dispo';
   }
 
   generateSpots(row: string) {
@@ -79,6 +92,7 @@ export class ReservationMapComponent implements OnInit {
       width: '400px',
       data: { 
         spotId,
+        userRole: this.userRole,
         existingReservations: spotStatus?.reservations || []
       }
     });

@@ -16,7 +16,6 @@ export function countBusinessDays(start, end) {
     current.setDate(current.getDate() + 1);
   }
   
-  console.log(`Counting business days from ${start.toISOString()} to ${end.toISOString()}: ${count} days`);
   return count;
 }
 
