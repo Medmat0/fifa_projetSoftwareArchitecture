@@ -1,7 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddReservationComponent } from '../add-reservation/add-reservation.component';
+import { MapService } from '../../services/map.service';
+
+interface Reservation {
+  startDate: string;
+  endDate: string;
+}
+
+interface SlotStatus {
+  slotId: string;
+  status: 'dispo' | 'reserved';
+  reservations?: Reservation[];
+}
 
 @Component({
   selector: 'app-reservation-map',
@@ -10,11 +23,9 @@ import { AddReservationComponent } from '../add-reservation/add-reservation.comp
   templateUrl: './reservation-map.component.html',
   styleUrl: './reservation-map.component.scss'
 })
-export class ReservationMapComponent {
+export class ReservationMapComponent implements OnInit {
   selectedSpot: string | null = null;
-
-  // Mock des places réservées
-  reservedSpots: string[] = ['A03', 'B05', 'D07', 'F06'];
+  slotsStatus: SlotStatus[] = [];
 
   parkingRows = [
     { label: 'A', spots: this.generateSpots('A') },
@@ -25,7 +36,31 @@ export class ReservationMapComponent {
     { label: 'F', spots: this.generateSpots('F') },
   ];
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private http: HttpClient
+  ) {}
+
+  ngOnInit() {
+    this.loadSlotStatus();
+  }
+
+  loadSlotStatus() {
+    this.http.get<SlotStatus[]>('http://localhost:3000/mapStatus/all').subscribe({
+      next: (status) => {
+        console.log('Status des places:', status);
+        this.slotsStatus = status;
+      },
+      error: (error) => {
+        console.error('Error loading slot status:', error);
+      }
+    });
+  }
+
+  getSpotStatus(spotId: string): string {
+    const spot = this.slotsStatus.find(s => s.slotId === spotId);
+    return spot?.status || 'available';
+  }
 
   generateSpots(row: string) {
     return Array.from({ length: 10 }, (_, i) => ({
@@ -34,23 +69,24 @@ export class ReservationMapComponent {
   }
 
   selectSpot(spotId: string) {
-    if (this.reservedSpots.includes(spotId)) return;
     this.selectedSpot = spotId;
     this.openReservationDialog(spotId);
   }
 
   openReservationDialog(spotId: string): void {
+    const spotStatus = this.slotsStatus.find(s => s.slotId === spotId);
     const dialogRef = this.dialog.open(AddReservationComponent, {
       width: '400px',
-      data: { spotId }
+      data: { 
+        spotId,
+        existingReservations: spotStatus?.reservations || []
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Simulate reservation by adding to reservedSpots
-        this.reservedSpots.push(spotId);
+        this.loadSlotStatus();
         this.selectedSpot = null;
-        console.log('Reservation made:', { spotId, ...result });
       }
     });
   }

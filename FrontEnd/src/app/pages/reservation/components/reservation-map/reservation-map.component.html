@@ -5,16 +5,14 @@
     <div class="parking-row">
       <div class="spots">
         <div
-          *ngFor="let spot of row.spots"
-          class="spot"
+          *ngFor="let spot of row.spots"          class="spot"
           [ngClass]="{
             'charger': row.label === 'A' || row.label === 'F',
             'selected': selectedSpot === spot.id,
-            'reserved': reservedSpots.includes(spot.id)
+            'reserved': getSpotStatus(spot.id) === 'reserved'
           }"
           (click)="selectSpot(spot.id)"
-        >
-          <ng-container *ngIf="!reservedSpots.includes(spot.id); else reserved">
+        >          <ng-container *ngIf="getSpotStatus(spot.id) !== 'reserved'; else reserved">
             <span>{{ spot.id }}</span>
           </ng-container>
 
