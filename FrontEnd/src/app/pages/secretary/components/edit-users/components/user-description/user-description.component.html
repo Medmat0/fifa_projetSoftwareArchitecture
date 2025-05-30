@@ -2,12 +2,7 @@
 <p>Nom: {{ user.name }}</p>
 <p>Email: {{ user.email }}</p>
 <p>Rôle: {{ user.role }}</p>
-<p>Réservations: {{ user.reservations?.length ?? 0 }}</p>
-<ul>
-  <li *ngFor="let reservation of user.reservations">
-    {{ reservation }}
-  </li>
-</ul>
+<p>Type de véhicule: {{ user.vehicleType }}</p>
 <button (click)="closeDescription.emit()">Fermer</button>
 
 
