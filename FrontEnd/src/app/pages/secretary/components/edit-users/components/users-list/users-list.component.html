@@ -1,5 +1,5 @@
 <ul>
   <li *ngFor="let user of users">
-    {{ user.name }} ({{ user.email }})
+    {{ user.name }} {{ user.email }} {{user.vehicleType}} {{user.reservations?.length}}
   </li>
 </ul>

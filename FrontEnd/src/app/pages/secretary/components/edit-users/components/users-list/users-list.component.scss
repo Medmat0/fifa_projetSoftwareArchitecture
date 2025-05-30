@@ -1,0 +1,30 @@
+:host {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 900px;
+}
+
+li {
+  background: #fff;
+  margin: 16px 0;
+  padding: 24px 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  font-size: 1.1rem;
+  width: 100%;
+  transition: box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+li:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
