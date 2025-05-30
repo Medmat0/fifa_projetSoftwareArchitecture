@@ -7,7 +7,8 @@ import authRoutes from "./src/modules/authentification/auth.route.js";
 import secretaryRoutes from "./src/modules/secretary/secretary.route.js";
 import slotsRoutes from './src/modules/system/Slots/listSlots.route.js'
 import managerRoutes from './src/modules/manager/reservation/reservationManager.route.js';
-import statsRoutes from './src/modules/manager/reservationHistory/reservationHistory.route.js'
+import statsRoutes from './src/modules/manager/reservationHistory/reservationHistory.route.js';
+import checkInRoutes from './src/modules/system/checkIn/checkIn.route.js';
 dotenv.config();
 
 
@@ -26,7 +27,7 @@ app.use("/auth", authRoutes);
 app.use("/secretary",secretaryRoutes)
 app.use("/reservationManager", managerRoutes);
 app.use("/reservationHistory", statsRoutes);
-
+app.use("/reservations", checkInRoutes);
 app.use("/reservation", reservationRoutes);
 app.use("/mapStatus", slotsRoutes);
 app.get("/", (req, res) => {
