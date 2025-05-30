@@ -6,7 +6,10 @@ RUN npm install -g @angular/cli --quiet && \
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install --quiet
+
+RUN npm cache clean --force && \
+    npm install --quiet --legacy-peer-deps && \
+    npm cache clean --force
 
 COPY . .
 
