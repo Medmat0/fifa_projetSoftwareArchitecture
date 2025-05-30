@@ -12,17 +12,15 @@ export const addEmployeeController = asyncHandler(async (req, res) => {
     try {
         const newEmployee = await addEmployeeService(req.body);
         res.status(201).json(newEmployee);
-    }catch (error) {
+    } catch (error) {
         console.error("Error adding employee:", error);
-        res.status(500).json({ message: "Erreur interne du serveur." });
+        res.status(400).json({ message: error.message || "Erreur interne du serveur." });
     }
-
-
 });
 
 /**
  * * @desc    Update an employee
- * @method  PUT
+ * @method  PATCH
  * @route   /employees/:id
  */
 
@@ -35,11 +33,15 @@ export const updateEmployeeController = asyncHandler(async (req, res) => {
         res.status(200).json(updatedEmployee);
     } catch (error) {
         console.error("Error updating employee:", error);
-        res.status(500).json({ message: "Erreur interne du serveur." });
+        res.status(400).json({ message: error.message || "Erreur interne du serveur." });
     }
 });
 
-
+/**
+ * * @desc    Delete an employee
+ * @method  DELETE
+ * @route   /employees/:id
+ */
 export const deleteEmployeeController = asyncHandler(async (req, res) => {
     try {
         const deletedEmployee = await deleteEmployeeService(req.params.id);
@@ -49,6 +51,6 @@ export const deleteEmployeeController = asyncHandler(async (req, res) => {
         res.status(200).json({ message: "Employé supprimé avec succès." });
     } catch (error) {
         console.error("Error deleting employee:", error);
-        res.status(500).json({ message: "Erreur interne du serveur." });
+        res.status(400).json({ message: error.message || "Erreur interne du serveur." });
     }
 });

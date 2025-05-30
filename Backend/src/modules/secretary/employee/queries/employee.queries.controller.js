@@ -16,7 +16,7 @@ export const getAllEmployeesController = asyncHandler(async (req, res) => {
 
     } catch (error) {
         console.error("Error fetching employees:", error);
-        res.status(500).json({ message: "Erreur interne du serveur." });
+        res.status(400).json({ message: error.message || "Erreur interne du serveur." });
     }
 
 
@@ -38,6 +38,6 @@ export const getEmployeeByIdController = asyncHandler(async (req, res) => {
 
     }catch (error) {
         console.error("Error fetching employee by ID:", error);
-        res.status(500).json({ message: "Erreur interne du serveur." });
+        res.status(400).json({ message: error.message || "Erreur interne du serveur." });
     }
 });

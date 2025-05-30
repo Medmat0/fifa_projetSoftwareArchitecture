@@ -5,16 +5,20 @@ import { UserDescriptionComponent } from './components/user-description/user-des
 import { UsersListComponent } from './components/users-list/users-list.component';
 import { UserCreationComponent } from './components/user-creation/user-creation.component';
 import { UserModificationComponent } from './components/user-modification/user-modification.component';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-edit-users',
-  imports: [UserDescriptionComponent, UsersListComponent, UserCreationComponent, UserModificationComponent],
+  imports: [UserDescriptionComponent, UsersListComponent,
+    UserCreationComponent, UserModificationComponent, NgIf, UserCreationComponent],
   templateUrl: './edit-users.component.html',
   standalone: true,
   styleUrl: './edit-users.component.scss'
 })
+
 export class EditUsersComponent implements OnInit {
   users: User[] = [];
+  showCreation = false;
 
   constructor(private secretaryUserService: SecretaryUserService) {}
 
@@ -24,4 +28,14 @@ export class EditUsersComponent implements OnInit {
       error: (err) => console.error(err)
     });
   }
+
+  addUser(newUser: User) {
+
+    this.users = [...this.users, newUser];
+  }
+
+  toggleCreation() {
+    this.showCreation = !this.showCreation;
+  }
+
 }
