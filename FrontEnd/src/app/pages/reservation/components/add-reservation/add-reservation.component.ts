@@ -33,7 +33,7 @@ export class AddReservationComponent implements OnInit {
   reservationForm: FormGroup;
   minDate = new Date();
   isLoading = false;
-  maxWorkingDays = 4;
+  maxWorkingDays = 5; 
   maxEndDate: Date | null = null;
 
   constructor(
@@ -54,7 +54,6 @@ export class AddReservationComponent implements OnInit {
       endDate: ['', [Validators.required]]
     });
 
-    // Écouter les changements de la date de début et calculer la date de fin max
     this.reservationForm.get('startDate')?.valueChanges.subscribe((value) => {
       this.reservationForm.get('endDate')?.setValue(null);
       if (value) {
@@ -74,17 +73,14 @@ export class AddReservationComponent implements OnInit {
     }
   }
 
-  // Calculate the maximum allowed end date based on start date
   calculateMaxEndDate(startDate: Date): Date {
     const maxDate = new Date(startDate);
-    let workingDaysCount = 0;
-    let daysToAdd = 0;
-
+    let workingDaysCount = 1; 
+    
     while (workingDaysCount < this.maxWorkingDays) {
-      daysToAdd++;
-      maxDate.setDate(startDate.getDate() + daysToAdd);
+      maxDate.setDate(maxDate.getDate() + 1);
       const dayOfWeek = maxDate.getDay();
-      if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Skip weekends
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) { 
         workingDaysCount++;
       }
     }
@@ -92,20 +88,19 @@ export class AddReservationComponent implements OnInit {
     return maxDate;
   }
 
-  // Count working days between two dates
   getWorkingDaysCount(startDate: Date, endDate: Date): number {
-    let count = 0;
+    let count = 1; 
     const curDate = new Date(startDate);
     curDate.setHours(0, 0, 0, 0);
     const lastDate = new Date(endDate);
     lastDate.setHours(0, 0, 0, 0);
 
-    while (curDate <= lastDate) {
+    while (curDate < lastDate) { 
+      curDate.setDate(curDate.getDate() + 1);
       const dayOfWeek = curDate.getDay();
       if (dayOfWeek !== 0 && dayOfWeek !== 6) {
         count++;
       }
-      curDate.setDate(curDate.getDate() + 1);
     }
     return count;
   }
@@ -120,7 +115,7 @@ export class AddReservationComponent implements OnInit {
     const currentDate = new Date(date);
     currentDate.setHours(0, 0, 0, 0);
 
-    // Check if the date is within existing reservations
+    // Check if the date
     if (this.data.existingReservations?.length) {
       for (const reservation of this.data.existingReservations) {
         const reservationStart = new Date(reservation.startDate);
@@ -136,17 +131,14 @@ export class AddReservationComponent implements OnInit {
 
     const startDateValue = this.reservationForm.get('startDate')?.value;
     
-    // Si on sélectionne une date de fin et qu'une date de début est définie
     if (startDateValue && this.reservationForm.get('endDate')?.touched) {
       const startDate = new Date(startDateValue);
       startDate.setHours(0, 0, 0, 0);
 
-      // Ne pas permettre de sélectionner des dates avant la date de début
       if (currentDate < startDate) {
         return false;
       }
 
-      // Ne pas permettre de sélectionner des dates après la date de fin maximale
       if (this.maxEndDate && currentDate > this.maxEndDate) {
         return false;
       }
@@ -172,10 +164,9 @@ export class AddReservationComponent implements OnInit {
         this.isLoading = false;
         return;
       }
-      
-      // Définir les heures pour le début et la fin
+        // Définir les heures pour le début et la fin
       startDate.setHours(8, 0, 0, 0); // 8h00
-      endDate.setHours(18, 0, 0, 0);  // 18h00
+      endDate.setHours(23, 0, 0, 0);  // 23h00
 
       const reservationData = {
         slotId: this.data.spotId,
