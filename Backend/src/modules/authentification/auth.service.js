@@ -14,7 +14,7 @@ const prisma = new PrismaClient();
  * @param   {object} res - Express response to set cookies
  * @returns {object} { status, data }
  */
-export const loginUser = async (email, password, res) => {
+export const loginUserService = async (email, password, res) => {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
@@ -57,7 +57,7 @@ export const loginUser = async (email, password, res) => {
   };
 };
 
-export const logoutUser = async (req, res) => {
+export const logoutUserService = async (req, res) => {
     res.clearCookie("refreshToken");
     res.clearCookie("accessToken");
 
@@ -88,6 +88,25 @@ export const checkAuthStatusService = async (accessToken, refreshToken) => {
     }
 
     return { status: 200, data: { authenticated: true, utilisateur: user } };
+  } catch (error) {
+    return { status: 200, data: { authenticated: false, message: "Invalid or expired token" } };
+  }
+};
+
+export const checkRoleService = async (accessToken, refreshToken) => {
+  if (!accessToken && !refreshToken) {
+    return { status: 200, data: { authenticated: false, message: "User not authenticated" } };
+  }
+
+  try {
+    const decodedToken = await verifyAccessToken(accessToken);
+    const user = await prisma.user.findUnique({ where: { id: decodedToken.id } });
+
+    if (!user) {
+      return { status: 200, data: { authenticated: false, message: "User not found" } };
+    }
+
+    return { status: 200, data: { authenticated: true, role: user.role } };
   } catch (error) {
     return { status: 200, data: { authenticated: false, message: "Invalid or expired token" } };
   }
