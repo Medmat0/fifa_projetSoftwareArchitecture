@@ -2,7 +2,7 @@
   <ul>
     <li *ngFor="let user of users" (click)="toggleDescription(user)">
       Nom: {{ user.name }} Email: {{ user.email }} Reservations: {{ user.reservations?.length ?? 0 }}
-      <button (click)="toggleModification(); $event.stopPropagation()">
+      <button (click)="toggleModification(user); $event.stopPropagation()">
         Modifier
       </button>
     </li>
@@ -10,7 +10,13 @@
   <app-user-description
     *ngIf="selectedUser && showDescription"
     [user]="selectedUser"
+    (closeDescription)="showDescription = false"
     class="user-description-panel"
   ></app-user-description>
 </div>
-<app-user-modification *ngIf="showModification"></app-user-modification>
+<app-user-modification
+  *ngIf="selectedUser && showModification"
+  [user]="selectedUser"
+  (closeModification)="showModification = false"
+  class="user-description-panel"
+></app-user-modification>

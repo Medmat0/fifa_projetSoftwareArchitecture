@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {User} from '../../../../../../shared/models/user';
 
 @Component({
@@ -11,5 +11,7 @@ import {User} from '../../../../../../shared/models/user';
 export class UserDescriptionComponent {
 
   @Input() user!: User;
+  @Input() showDescription = false;
+  @Output() closeDescription = new EventEmitter<void>();
 
 }

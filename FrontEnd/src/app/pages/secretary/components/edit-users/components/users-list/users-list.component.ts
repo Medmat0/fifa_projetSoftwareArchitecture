@@ -25,15 +25,14 @@ export class UsersListComponent {
   selectedUser: User | null = null;
 
 
-
-
   toggleDescription(user: User) {
     this.showDescription = !this.showDescription;
     this.selectedUser = user;
   }
 
-  toggleModification() {
+  toggleModification(user: User) {
     this.showModification = !this.showModification;
+    this.selectedUser = user;
   }
 
 
