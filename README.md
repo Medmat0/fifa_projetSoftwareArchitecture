@@ -34,10 +34,10 @@ Cette application permet de gérer les réservations de places de parking.
                email : manager@admin.com
                password : test2
 
-   Compte secretary :
+5. Compte secretary :
                   email : secretary@admin.com
                   password : admin123
-   Compte employee : 
+6. Compte employee : 
                   email : yassine@test.com
                   password : yassine
 
