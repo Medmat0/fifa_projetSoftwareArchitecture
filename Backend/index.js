@@ -6,6 +6,7 @@ import cors from "cors";
 import authRoutes from "./src/modules/authentification/auth.route.js";
 import secretaryRoutes from "./src/modules/secretary/secretary.route.js";
 import slotsRoutes from './src/modules/system/listSlots.route.js'
+import managerRoutes from './src/modules/manager/reservation/manager.route.js';
 dotenv.config();
 
 
@@ -22,7 +23,7 @@ app.use(cors({
 
 app.use("/auth", authRoutes);
 app.use("/secretary",secretaryRoutes)
-
+app.use("/reservationManager", managerRoutes);
 app.use("/reservation", reservationRoutes);
 app.use("/mapStatus", slotsRoutes);
 app.get("/", (req, res) => {
