@@ -29,11 +29,10 @@ export const employeeAuth = async (req, res, next) => {
  */
 export const secretaryAuth = async (req, res, next) => {
   try {
-    const authHeader = req.headers["authorization"];
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ message: "No token provided" });
+    const token = req.cookies["accessToken"];
+    if (!token) {
+      return res.status(401).json({ message: "Access token not found in cookies" });
     }
-    const token = authHeader.split(" ")[1];
     const decoded = await verifyAccessToken(token);
     const user = await prisma.user.findUnique({ where: { id: decoded.id } });
     if (!user || user.role !== "SECRETARY") {
