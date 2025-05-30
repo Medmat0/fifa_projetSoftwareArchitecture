@@ -33,6 +33,8 @@ export class AddReservationComponent implements OnInit {
   reservationForm: FormGroup;
   minDate = new Date();
   isLoading = false;
+  maxWorkingDays = 4;
+  maxEndDate: Date | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -52,8 +54,16 @@ export class AddReservationComponent implements OnInit {
       endDate: ['', [Validators.required]]
     });
 
-    // Écouter les changements de la date de début
-    this.reservationForm.get('startDate')?.valueChanges.subscribe(() => {
+    // Écouter les changements de la date de début et calculer la date de fin max
+    this.reservationForm.get('startDate')?.valueChanges.subscribe((value) => {
+      this.reservationForm.get('endDate')?.setValue(null);
+      if (value) {
+        const startDate = new Date(value);
+        this.maxEndDate = this.calculateMaxEndDate(startDate);
+        console.log('Date de fin maximale:', this.maxEndDate);
+      } else {
+        this.maxEndDate = null;
+      }
       this.reservationForm.get('endDate')?.updateValueAndValidity();
     });
   }
@@ -64,30 +74,81 @@ export class AddReservationComponent implements OnInit {
     }
   }
 
+  // Calculate the maximum allowed end date based on start date
+  calculateMaxEndDate(startDate: Date): Date {
+    const maxDate = new Date(startDate);
+    let workingDaysCount = 0;
+    let daysToAdd = 0;
+
+    while (workingDaysCount < this.maxWorkingDays) {
+      daysToAdd++;
+      maxDate.setDate(startDate.getDate() + daysToAdd);
+      const dayOfWeek = maxDate.getDay();
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Skip weekends
+        workingDaysCount++;
+      }
+    }
+
+    return maxDate;
+  }
+
+  // Count working days between two dates
+  getWorkingDaysCount(startDate: Date, endDate: Date): number {
+    let count = 0;
+    const curDate = new Date(startDate);
+    curDate.setHours(0, 0, 0, 0);
+    const lastDate = new Date(endDate);
+    lastDate.setHours(0, 0, 0, 0);
+
+    while (curDate <= lastDate) {
+      const dayOfWeek = curDate.getDay();
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        count++;
+      }
+      curDate.setDate(curDate.getDate() + 1);
+    }
+    return count;
+  }
+
   dateFilter = (date: Date | null): boolean => {
     if (!date) return false;
     
-    // Filter out weekends (Saturday = 6, Sunday = 0)
+    // Filter out weekends
     const day = date.getDay();
     if (day === 0 || day === 6) return false;
     
-    // Check if date is in any reserved range
+    const currentDate = new Date(date);
+    currentDate.setHours(0, 0, 0, 0);
+
+    // Check if the date is within existing reservations
     if (this.data.existingReservations?.length) {
-      const currentDate = new Date(date);
-      currentDate.setHours(0, 0, 0, 0);
-      
-      // Check each reservation period
       for (const reservation of this.data.existingReservations) {
-        const startDate = new Date(reservation.startDate);
-        const endDate = new Date(reservation.endDate);
+        const reservationStart = new Date(reservation.startDate);
+        const reservationEnd = new Date(reservation.endDate);
+        reservationStart.setHours(0, 0, 0, 0);
+        reservationEnd.setHours(0, 0, 0, 0);
         
-        startDate.setHours(0, 0, 0, 0);
-        endDate.setHours(0, 0, 0, 0);
-        
-        // Block the date if it's within any existing reservation
-        if (currentDate >= startDate && currentDate <= endDate) {
+        if (currentDate >= reservationStart && currentDate <= reservationEnd) {
           return false;
         }
+      }
+    }
+
+    const startDateValue = this.reservationForm.get('startDate')?.value;
+    
+    // Si on sélectionne une date de fin et qu'une date de début est définie
+    if (startDateValue && this.reservationForm.get('endDate')?.touched) {
+      const startDate = new Date(startDateValue);
+      startDate.setHours(0, 0, 0, 0);
+
+      // Ne pas permettre de sélectionner des dates avant la date de début
+      if (currentDate < startDate) {
+        return false;
+      }
+
+      // Ne pas permettre de sélectionner des dates après la date de fin maximale
+      if (this.maxEndDate && currentDate > this.maxEndDate) {
+        return false;
       }
     }
     
@@ -101,6 +162,16 @@ export class AddReservationComponent implements OnInit {
       
       const startDate = new Date(formValue.startDate);
       const endDate = new Date(formValue.endDate);
+
+      // Verify working days count
+      const workingDays = this.getWorkingDaysCount(startDate, endDate);
+      if (workingDays > this.maxWorkingDays) {
+        this.snackBar.open('La réservation ne peut pas dépasser 5 jours ouvrables', 'Fermer', {
+          duration: 5000
+        });
+        this.isLoading = false;
+        return;
+      }
       
       // Définir les heures pour le début et la fin
       startDate.setHours(8, 0, 0, 0); // 8h00
