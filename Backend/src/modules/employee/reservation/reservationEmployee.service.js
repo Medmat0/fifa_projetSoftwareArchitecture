@@ -1,6 +1,7 @@
 import { ReservationService } from '../../reservationService.interface.js';
 import { PrismaClient } from '@prisma/client';
 import { countBusinessDays } from '../../../core/coutBusinessDays.js';
+import { generateQRCode } from '../../../core/generateQR.js';
 const prisma = new PrismaClient();
 
 export class ReservationEmployeeService extends ReservationService {
@@ -105,9 +106,12 @@ export class ReservationEmployeeService extends ReservationService {
       }
     });
 
+   const qrCode = await generateQRCode(reservation.id);
+
+
     return {
       status: 200,
-      data: { reservation }
+      data: { reservation , qrCode }
     };
   }
 }
