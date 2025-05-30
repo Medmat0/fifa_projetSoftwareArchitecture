@@ -30,6 +30,17 @@ Cette application permet de gérer les réservations de places de parking.
    docker-compose up 
    ```
 
+4. Compte manager :     
+               email : manager@admin.com
+               password : test2
+
+   Compte secretary :
+                  email : secretary@admin.com
+                  password : admin123
+   Compte employee : 
+                  email : yassine@test.com
+                  password : yassine
+
 L'application sera disponible à l'adresse suivante: http://localhost:4300
 
 
