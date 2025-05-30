@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { ReservationService } from "../../../reservationService.interface.js";
 const prisma = new PrismaClient();
 
 

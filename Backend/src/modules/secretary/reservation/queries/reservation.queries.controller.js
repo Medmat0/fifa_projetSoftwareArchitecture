@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import {  listAllReservations } from "./listReservation.service.js";
+import {  listAllReservations } from "./reservation.queries.service.js";
 
 
 

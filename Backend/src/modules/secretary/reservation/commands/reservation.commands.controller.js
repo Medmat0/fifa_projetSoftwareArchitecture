@@ -1,6 +1,5 @@
 import asyncHandler from "express-async-handler";
-import { deleteReservation } from "./reservation.commands.service.js";
-import { ReservationEmployeeService } from "../reservationEmployee.service.js";
+import { ReservationEmployeeService } from "./reservation.commands.service.js";
 
 /**
  * Controller pour supprimer une réservation
