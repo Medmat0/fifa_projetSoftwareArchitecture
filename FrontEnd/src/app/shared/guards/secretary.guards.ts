@@ -18,6 +18,7 @@ export class SecretaryGuard implements CanActivate {
         if (response.authenticated && response.role === 'SECRETARY') {
           console.log('User has the required role:', response);
         } else {
+          confirm("Vous n'êtes pas habilité à accéder à cette page");
           console.log('User does not have the required role:', response);
           this.router.navigate(['']);
         }
