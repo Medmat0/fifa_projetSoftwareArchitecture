@@ -6,7 +6,7 @@ import cors from "cors";
 import authRoutes from "./src/modules/authentification/auth.route.js";
 import secretaryRoutes from "./src/modules/secretary/secretary.route.js";
 import slotsRoutes from './src/modules/system/listSlots.route.js'
-import managerRoutes from './src/modules/manager/reservation/manager.route.js';
+import managerRoutes from './src/modules/manager/reservation/reservationManager.route.js';
 dotenv.config();
 
 
