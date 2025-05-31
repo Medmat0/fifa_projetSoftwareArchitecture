@@ -35,13 +35,15 @@ export class EditReservationsComponent implements OnInit {
   }
 
   deleteReservation(id: string) {
-    this.reservationService.deleteReservation(id).subscribe({
-      next: () => {
-        this.loadReservations(); // Reload the list after deletion
-      },
-      error: (error) => {
-        console.error('Error deleting reservation:', error);
-      }
-    });
+    if (confirm('Êtes-vous sûr de vouloir supprimer cette réservation?')) {
+      this.reservationService.deleteReservation(id).subscribe({
+        next: () => {
+          this.loadReservations(); // Recharge la liste après suppression
+        },
+        error: (error) => {
+          console.error('Erreur lors de la suppression de la réservation:', error);
+        }
+      });
+    }
   }
 }
