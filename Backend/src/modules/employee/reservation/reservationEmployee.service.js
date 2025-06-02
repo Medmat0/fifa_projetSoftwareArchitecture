@@ -104,14 +104,13 @@ export class ReservationEmployeeService extends ReservationService {
         halfDay: false 
         
       }
-    });
+  });
 
-   const qrCode = await generateQRCode(reservation.id);
-
+    const qrCode = await generateQRCode(reservation.id);
 
     return {
       status: 200,
-      data: { reservation , qrCode }
+      data: { reservation, qrCode }
     };
   }
 }

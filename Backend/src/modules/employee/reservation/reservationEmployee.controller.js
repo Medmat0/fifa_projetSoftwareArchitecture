@@ -5,7 +5,7 @@ const reservationService = new ReservationEmployeeService();
 
 /**
  * @desc    Create a reservation with validation + QR code
- * @route   POST /reservation
+ * @route   POST /reservation/create
  * @access  Private (user must be authenticated)
  */
 export const createReservation = asyncHandler(async (req, res) => {
