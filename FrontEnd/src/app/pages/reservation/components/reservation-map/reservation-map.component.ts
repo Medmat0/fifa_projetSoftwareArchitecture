@@ -6,6 +6,20 @@ import { AddReservationComponent } from '../add-reservation/add-reservation.comp
 import { MapService } from '../../services/map.service';
 import { Role } from '../../../../shared/models/user';
 
+interface ReservationWithQR {
+  reservation: {
+    id: string;
+    userId: string;
+    slotId: string;
+    startDate: string;
+    endDate: string;
+    halfDay: boolean;
+    checkInTime: string | null;
+    createdAt: string;
+  };
+  qrCode: string;
+}
+
 interface Reservation {
   startDate: string;
   endDate: string;
@@ -27,6 +41,7 @@ interface SlotStatus {
 export class ReservationMapComponent implements OnInit {
   selectedSpot: string | null = null;
   slotsStatus: SlotStatus[] = [];
+  currentReservation: ReservationWithQR | null = null;
   userRole: Role = Role.EMPLOYEE;
 
   parkingRows = [
@@ -56,10 +71,12 @@ export class ReservationMapComponent implements OnInit {
 
   ngOnInit() {
     this.loadSlotStatus();
+    this.loadCurrentReservation();
   }
-
   loadSlotStatus() {
-    this.http.get<SlotStatus[]>('http://localhost:3000/mapStatus/all').subscribe({
+    this.http.get<SlotStatus[]>('http://localhost:3000/mapStatus/all', {
+      withCredentials: true
+    }).subscribe({
       next: (status) => {
         console.log('Status des places:', status);
         this.slotsStatus = status;
@@ -68,6 +85,24 @@ export class ReservationMapComponent implements OnInit {
         console.error('Error loading slot status:', error);
       }
     });
+  }
+
+  loadCurrentReservation() {
+    this.http.get<ReservationWithQR>('http://localhost:3000/reservation/current', {
+      withCredentials: true
+    }).subscribe({
+        next: (response) => {
+          console.log('Current reservation loaded:', response);
+          this.currentReservation = response;
+        },
+        error: (err) => {
+          console.error('Error loading current reservation:', err);
+          if (err.status === 404) {
+            // This is an expected case when the user has no current reservation
+            console.log('No current reservation found');
+          }
+        }
+      });
   }
 
   getSpotStatus(spotId: string): string {

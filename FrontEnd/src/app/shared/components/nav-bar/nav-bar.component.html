@@ -8,16 +8,12 @@
 
       <h2>SpotReservation</h2>
     </div>
-    <ul>
-      <li><a routerLink="/">Accueil</a></li>
+    <ul>      <li><a routerLink="/">Accueil</a></li>
       <li><a routerLink="/reservation">Réservation</a></li>
       <li><a routerLink="/contacts">Nous&nbsp;Contacter</a></li>
-    </ul>    <button *ngIf="isSecretary" routerLink="/secretary" class="dashboard">
-      DashBoard Secrétaire
-    </button>
-    <button *ngIf="isManager" routerLink="/manager/stats" class="dashboard">
-      DashBoard Manager
-    </button>
+      <li *ngIf="isSecretary"><a routerLink="/secretary">Dashboard Secrétaire</a></li>
+      <li *ngIf="isManager"><a routerLink="/manager/stats">Dashboard Manager</a></li>
+    </ul>
 
     <div class="ConnectingOptions">
       <div class="login-register">

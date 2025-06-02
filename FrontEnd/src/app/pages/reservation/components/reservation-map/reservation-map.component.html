@@ -1,7 +1,8 @@
-<div class="parking-map-container">
-  <h2>🅿️ Parking Map</h2>
+<div class="page-container">
+  <div class="parking-map-container">
+    <h2>🅿️ Parking Map</h2>
 
-  <div class="parking-rows" *ngFor="let row of parkingRows">
+    <div class="parking-rows" *ngFor="let row of parkingRows">
     <div class="parking-row">
       <div class="spots">
         <div
@@ -18,8 +19,17 @@
 
           <ng-template #reserved>
             <small>{{ spot.id }}</small>
-          </ng-template>
-        </div>
+          </ng-template>        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qr-code-section" *ngIf="currentReservation">
+    <div class="qr-code-container">
+      <h3>Ma réservation du jour</h3>
+      <div class="reservation-details">
+        <p>Place : {{currentReservation.reservation.slotId}}</p>
+        <img [src]="currentReservation.qrCode" alt="QR Code de réservation" />
       </div>
     </div>
   </div>

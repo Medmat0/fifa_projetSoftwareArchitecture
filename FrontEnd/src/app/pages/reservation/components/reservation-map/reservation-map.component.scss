@@ -78,6 +78,45 @@
   }
 }
 
+.page-container {
+  display: flex;
+  gap: 2rem;
+  margin: 0 auto;
+  max-width: 1400px;
+}
+
+.qr-code-section {
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
+}
+
+.qr-code-container {
+  text-align: center;
+
+  h3 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+  }
+
+  .reservation-details {
+    p {
+      margin-bottom: 1rem;
+      color: #666;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      margin-top: 1rem;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .parking-row .spots {
     grid-template-columns: repeat(5, 1fr);
@@ -87,5 +126,17 @@
 
   .spot {
     font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .page-container {
+    flex-direction: column;
+  }
+
+  .qr-code-section {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 400px;
   }
 }
