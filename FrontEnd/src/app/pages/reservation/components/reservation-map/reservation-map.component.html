@@ -23,13 +23,22 @@
       </div>
     </div>
   </div>
-
   <div class="qr-code-section" *ngIf="currentReservation">
     <div class="qr-code-container">
       <h3>Ma réservation du jour</h3>
       <div class="reservation-details">
         <p>Place : {{currentReservation.reservation.slotId}}</p>
-        <img [src]="currentReservation.qrCode" alt="QR Code de réservation" />
+        
+        <ng-container *ngIf="currentReservation.reservation.checkInTime; else qrCode">
+          <div class="check-in-confirmed">
+            <p class="success-message">Réservation confirmée</p>
+            <p class="check-in-time">Check-in effectué à {{ currentReservation.reservation.checkInTime | date:'HH:mm' }}</p>
+          </div>
+        </ng-container>
+        
+        <ng-template #qrCode>
+          <img [src]="currentReservation.qrCode" alt="QR Code de réservation" />
+        </ng-template>
       </div>
     </div>
   </div>
