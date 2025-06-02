@@ -12,9 +12,11 @@
       <li><a routerLink="/">Accueil</a></li>
       <li><a routerLink="/reservation">Réservation</a></li>
       <li><a routerLink="/contacts">Nous&nbsp;Contacter</a></li>
-    </ul>
-    <button routerLink="/secretary" class="dashboard">
+    </ul>    <button *ngIf="isSecretary" routerLink="/secretary" class="dashboard">
       DashBoard Secrétaire
+    </button>
+    <button *ngIf="isManager" routerLink="/manager/stats" class="dashboard">
+      DashBoard Manager
     </button>
 
     <div class="ConnectingOptions">
